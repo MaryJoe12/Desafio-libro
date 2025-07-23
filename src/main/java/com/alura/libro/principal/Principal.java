@@ -119,7 +119,7 @@ public class Principal {
     }
 
     private void mostrarAutores(){
-        List<Autor> autores = repository.buscarAutores();
+        List<Autor> autores = repositoryA.findAll();
         autores.forEach(System.out::println);
     }
 
