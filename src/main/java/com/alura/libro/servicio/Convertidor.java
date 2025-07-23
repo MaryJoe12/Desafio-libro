@@ -3,16 +3,28 @@ package com.alura.libro.servicio;
 import com.alura.libro.model.DatosLibro;
 import com.alura.libro.model.Libros;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Convertidor {
+public class Convertidor implements IConvierteDatos{
     private ObjectMapper objectMapper = new ObjectMapper();
 
-    public List<DatosLibro> obtenerDatos(String json) {
+    @Override
+    public <T> T obtenerDatos(String json, Class<T> clase){
+        try{
+            return objectMapper.readValue(json.toString(), clase);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+}
+/*
+public List<DatosLibro> obtenerDatos(String json) {
         List<DatosLibro> libros = new ArrayList<>();
         try {
             JsonNode root = objectMapper.readTree(json);
@@ -41,4 +53,4 @@ public class Convertidor {
         }
         return libros;
     }
-}
+ */
