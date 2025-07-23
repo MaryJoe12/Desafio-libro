@@ -4,6 +4,7 @@ import com.alura.libro.model.Autor;
 import com.alura.libro.model.Datos;
 import com.alura.libro.model.DatosLibro;
 import com.alura.libro.model.Libros;
+import com.alura.libro.repository.AutorRepository;
 import com.alura.libro.repository.LibroRepository;
 import com.alura.libro.servicio.CallAPI;
 import com.alura.libro.servicio.Convertidor;
@@ -22,9 +23,11 @@ public class Principal {
     private final String URL= "https://gutendex.com/books/";
     private LibroRepository repository;
     private List<Libros> titulo;
+    private AutorRepository repositoryA;
 
-    public Principal(LibroRepository repositorio) {
+    public Principal(LibroRepository repositorio, AutorRepository repositorioA) {
         this.repository= repositorio;
+        this.repositoryA = repositorioA;
     }
 
     public void muestraMenu(){
@@ -76,31 +79,33 @@ public class Principal {
         Optional<DatosLibro> libroBuscar = datos.resultados().stream()
                 .filter(l ->l.titulo().toUpperCase().contains(nombreLibro.toUpperCase()))
                 .findFirst();
+
         if (libroBuscar.isPresent()){
             System.out.println("Libro Encontrado");
             DatosLibro libroDato = libroBuscar.get();
-            System.out.println(libroDato.titulo());
+
             Optional<Libros> libroExist= repository.findLibro(libroDato.titulo());
             if(libroExist.isPresent()){
                 System.out.println("Ya existe en la base de datos este libro");
             }else {
                 Libros libro;
                 Autor autor;
-                Optional<Autor> autorExist= repository.findAuthor(libroDato.autor().nombre());
-                //ya esta el autor
+                Optional<Autor> autorExist= repositoryA.findByNombre(libroDato.autor().nombre());
+                libro = new Libros(libroDato);
                 if(autorExist.isPresent()){
-                    System.out.println(autorExist.get());
                     autor = autorExist.get();
-                    libro = new Libros(libroDato);
                     libro.setAutor(autor);
+                    autor.getLibro().add(libro);
+                    repository.save(libro);
+
                 }else{
                     autor= new Autor(libroDato.autor());
-                    libro = new Libros(libroDato, autor);
+                    libro.setAutor(autor);
+                    autor.getLibro().add(libro);
+                    repositoryA.save(autor);
 
                 }
-                autor.addLibro(libro);
-                repository.save(libro);
-
+                System.out.println(libro);
                 System.out.println("guardado con exito");
             }
         }else {

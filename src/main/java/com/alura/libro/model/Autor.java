@@ -81,10 +81,11 @@ public class Autor {
         List<String> titulos= libro.stream().map(Libros::getTitulo)
                 .collect(Collectors.toList());
 
-        return "\nAutor:" +
+        return "\n--------AUTOR -----------" +
                 "\nnombre=" + nombre +
-                "\nfechaNacimiento=" + fechaNacimiento +
-                "\nfechaMuerte=" + fechaMuerte +
-                "\nlibro=" + titulos;
+                "\nfecha de Nacimiento=" + fechaNacimiento +
+                "\nfecha deMuerte=" + fechaMuerte +
+                "\nlibros=" + titulos+
+                "\n------------------------";
     }
 }

@@ -14,7 +14,7 @@ public class Libros {
     private Long Id;
     @Column(unique = true)
     private String titulo;
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn(name = "autor_id")
     private Autor autor;
     private Integer descargas;
@@ -77,10 +77,11 @@ public class Libros {
 
     @Override
     public String toString() {
-        return "\nLibro:" +
+        return "\n--------LIBRO----------" +
                 "\ntitulo=" + titulo +
                 "\nautor=" + autor.getNombre() +
-                "\ndescargas=" + descargas +
-                "\nidiomas=" + idiomas ;
+                "\nidiomas=" + idiomas+
+                "\ndescargas=" + descargas+
+                "\n -----------------------";
     }
 }
