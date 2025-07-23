@@ -20,4 +20,7 @@ public interface LibroRepository extends JpaRepository<Libros, Long> {
 
     @Query("SELECT a FROM Autor a WHERE a.nombre = :nombre")
     Optional<Autor> findAuthor(String nombre);
+
+    @Query("SELECT l FROM Libros l WHERE l.titulo = :titulo")
+    Optional<Libros> findLibro(String titulo);
 }

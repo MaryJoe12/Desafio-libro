@@ -80,24 +80,29 @@ public class Principal {
             System.out.println("Libro Encontrado");
             DatosLibro libroDato = libroBuscar.get();
             System.out.println(libroDato.titulo());
-            Libros libro;
-            Autor autor;
-            Optional<Autor> autorExist= repository.findAuthor(libroDato.autor().nombre());
-            //ya esta el autor
-            if(autorExist.isPresent()){
-                //System.out.println(autorExist.get());
-                autor = autorExist.get();
-                libro = new Libros(libroDato, autor);
-                libro.setAutor(autor);
-            }else{
-                autor= new Autor(libroDato.autor());
-                libro = new Libros(libroDato, autor);
+            Optional<Libros> libroExist= repository.findLibro(libroDato.titulo());
+            if(libroExist.isPresent()){
+                System.out.println("Ya existe en la base de datos este libro");
+            }else {
+                Libros libro;
+                Autor autor;
+                Optional<Autor> autorExist= repository.findAuthor(libroDato.autor().nombre());
+                //ya esta el autor
+                if(autorExist.isPresent()){
+                    System.out.println(autorExist.get());
+                    autor = autorExist.get();
+                    libro = new Libros(libroDato);
+                    libro.setAutor(autor);
+                }else{
+                    autor= new Autor(libroDato.autor());
+                    libro = new Libros(libroDato, autor);
+
+                }
                 autor.addLibro(libro);
+                repository.save(libro);
+
+                System.out.println("guardado con exito");
             }
-
-            repository.save(libro);
-
-            System.out.println("guardado con exito");
         }else {
             System.out.println("Libro no encontrado");
         }

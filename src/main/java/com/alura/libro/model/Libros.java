@@ -28,6 +28,12 @@ public class Libros {
         this.idiomas = String.valueOf(libro.idiomas());
         this.autor = autor;
     }
+    public Libros(DatosLibro libro) {
+        this.titulo = libro.titulo();
+        this.descargas = libro.descargas();
+        this.idiomas = String.valueOf(libro.idiomas());
+
+    }
 
     public Long getId() {
         return Id;
