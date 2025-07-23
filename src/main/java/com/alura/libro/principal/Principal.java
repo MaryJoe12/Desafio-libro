@@ -8,12 +8,9 @@ import com.alura.libro.repository.AutorRepository;
 import com.alura.libro.repository.LibroRepository;
 import com.alura.libro.servicio.CallAPI;
 import com.alura.libro.servicio.Convertidor;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
+
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 //https://gutendex.com/
 public class Principal {
